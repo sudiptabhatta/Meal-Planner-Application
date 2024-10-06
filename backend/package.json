@@ -1,0 +1,20 @@
+{
+  "name": "meal-planner-application",
+  "version": "1.0.0",
+  "description": "A Meal Planner Application which uses Spoonacular API to find meals to create Restful API",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "npx nodemon app.js"
+  },
+  "author": "Sudipta Bhatta",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
