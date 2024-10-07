@@ -2,9 +2,15 @@ const Users = {
     users: [
         {
             _id: 1,
-            username: 'sudipta_bhatta',
+            username: 'prof_auman',
             password: 'future_hashed_password',
             preferences: ['ketogenic']
+        },
+        {
+            _id: 2,
+            username: 'sudipta_bhatta',
+            password: 'future_hashed_password',
+            preferences: ['gluten free']
         }
     ],
 
@@ -53,7 +59,26 @@ const MealPlans = {
                     image: 'https://img.spoonacular.com/recipes/1652621-312x231.jpg'
                 }
             ]
-        }
+        },
+        {
+            _id: 2,
+            user_id: 2,
+            week: 1,
+            meals: [
+                {
+                    mealId: 1591791,
+                    name: 'Keto Snickerdoodle Coffee',
+                    diets: ['gluten free', 'lacto ovo vegetarian', 'primal', 'ketogenic'],
+                    image: 'https://img.spoonacular.com/recipes/1591791-312x231.jpg'
+                },
+                {
+                    mealId: 716429,
+                    name: "Keto Pancakes",
+                    diets: ["gluten free", "dairy free", "lacto ovo vegetarian", "ketogenic"],
+                    image: "https://img.spoonacular.com/recipes/1652621-556x370.jpg"
+                }
+            ]
+        },
     ],
 
     findAll(userId) {
