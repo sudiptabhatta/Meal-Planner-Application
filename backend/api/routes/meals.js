@@ -2,6 +2,7 @@ import express from 'express';
 import axios from 'axios';
 
 import { Users } from '../../db/mocks.js';
+import { verifyUser } from '../middleware/authorization.js';
 
 const router = express.Router();
 
@@ -9,9 +10,9 @@ const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
 const SPOONACULAR_API_URL = process.env.SPOONACULAR_API_URL;
 
 // GET /meals/search??meal=<name>&diets=<preferences>
-router.get('/search', async (req, res) => {
+router.get('/search', verifyUser, async (req, res) => {
     try {
-        const user_id = Number(req.headers.user_id);
+        const { user_id } = req.verified;
         const { meal, diets } = req.query;
 
         // verify there is a requesting user (user_id)

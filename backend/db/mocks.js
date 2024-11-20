@@ -9,7 +9,8 @@ const Users = {
         {
             _id: 2,
             username: 'sudipta_bhatta',
-            password: 'future_hashed_password',
+            // plain text password is future_hashed_password
+            password: '6fed2a9b84af05db412b4cf1388a3f7d:0fbc3a75e54230a3b34208937e17f3a6780fa9af87e4b2e42e665e67ebac3c71',
             preferences: ['gluten free']
         }
     ],
@@ -17,6 +18,10 @@ const Users = {
     find(key, value) {
         // find a user by matching a specified key and value
         return this.users.find((user) => user[key] === value);
+    },
+
+    exists(id) {
+        return this.users.some((user) => user._id === id);
     },
 
     add(user) {

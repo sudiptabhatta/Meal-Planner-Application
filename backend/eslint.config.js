@@ -31,5 +31,8 @@ export default [
       'no-mixed-spaces-and-tabs': 'error', // Disallow mixing spaces and tabs
       'semi': ['error', 'always'],
     },
+    env: {
+      node: true, // Tells ESLint that the code is running in a Node.js environment
+    },
   },
 ];

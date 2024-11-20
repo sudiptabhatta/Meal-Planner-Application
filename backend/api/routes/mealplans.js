@@ -1,15 +1,18 @@
 import express from 'express';
 
 import { MealPlans, Users } from '../../db/mocks.js';
+import { verifyUser } from '../middleware/authorization.js';
 
 const router = express.Router();
+
+router.use(verifyUser);
 
 const MAX_MEALS = 3;
 
 // POST /mealplans
 router.post('/', async (req, res) => {
     try {
-        const user_id = Number(req.headers.user_id);
+        const { user_id } = req.verified; 
         const { week, mealId, name, diets, image } = req.body;
 
         // verify there is a requesting user (user_id)
@@ -56,7 +59,7 @@ router.post('/', async (req, res) => {
 // DELETE /mealplans/:id
 router.delete('/:id', async (req, res) => {
     try {
-        const user_id = Number(req.headers.user_id);
+        const { user_id } = req.verified; 
         const id = Number(req.params.id);
 
         // verify there is a requesting user (user_id)

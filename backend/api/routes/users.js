@@ -2,9 +2,10 @@ import express from "express";
 
 import { MealPlans, Users } from "../../db/mocks.js";
 import { validatePreferences } from "../util/diet.js";
+import { compare, hash, signToken } from "../util/auth.js";
+import { verifyUser } from "../middleware/authorization.js";
 
 const router = express.Router();
-
 
 // POST /users/register
 router.post("/register", async (req, res) => {
@@ -28,13 +29,15 @@ router.post("/register", async (req, res) => {
         return res.status(400).json({ error: `Invalid dietary preferences: ${invalidPreferences}` });
     }
 
-    const user = Users.add({
+    const hashedPassword = await hash(password);
+
+    const userEntry = Users.add({
         username: username.toLowerCase(),
-        password,
+        password: hashedPassword,
         preferences,
     });
 
-    res.json({ _id: user._id, username: user.username, preferences: user.preferences });
+    res.json({ _id: userEntry._id, username: userEntry.username, preferences: userEntry.preferences });
 
   } catch (error) {
         res.status(500).json({ error: error.toString() });
@@ -53,12 +56,19 @@ router.post("/login", async (req, res) => {
     }
 
     // find user by username and verify password
-    const user = Users.find("username", username.toLowerCase());
-    if (!user || user.password !== password) {
-        return res.status(401).json({ error: "Invalid username or password." });
+    const userEntry = Users.find("username", username.toLowerCase());
+    if (!userEntry) {
+        return res.status(401).json({ error: "Invalid username." });
     }
 
-    res.json({ _id: user._id, username: user.username, preferences: user.preferences });
+    const passwordEqual = await compare(password, userEntry.password);
+    if (!passwordEqual) {
+        return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    const token = signToken(userEntry.username, userEntry._id);
+
+    res.json({ _id: userEntry._id, username: userEntry.username, preferences: userEntry.preferences, tokenType: 'Bearer', access_token: token });
   } catch (error) {
         res.status(500).json({ error: error.toString() });
   }
@@ -66,9 +76,9 @@ router.post("/login", async (req, res) => {
 
 
 // GET /users/:id
-router.get("/:id", async (req, res) => {
+router.get("/:id", verifyUser, async (req, res) => {
     try {
-        const user_id = Number(req.headers.user_id);
+        const { user_id } = req.verified;
         const id = Number(req.params.id);
 
         // ensure the user id in header matches id provided in URL
@@ -93,9 +103,9 @@ router.get("/:id", async (req, res) => {
 
 
 // PUT /users/:id
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyUser, async (req, res) => {
     try {
-        const user_id = Number(req.headers.user_id);
+        const { user_id } = req.verified;
         const id = Number(req.params.id);
 
         const { preferences } = req.body;
