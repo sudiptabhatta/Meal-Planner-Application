@@ -4,12 +4,18 @@ import { MealPlans, Users } from '../../db/mocks.js';
 
 const router = express.Router();
 
+const MAX_MEALS = 3;
 
 // POST /mealplans
 router.post('/', async (req, res) => {
     try {
         const user_id = Number(req.headers.user_id);
         const { week, mealId, name, diets, image } = req.body;
+
+        // verify there is a requesting user (user_id)
+         if (!user_id) {
+            return res.status(403).json({ error: 'Forbidden user' });
+        }
 
         // ensure user exists
         const user = Users.find('_id', user_id);
@@ -24,18 +30,17 @@ router.post('/', async (req, res) => {
         if(mealplan) {
 
             // check if the meal plan already has 3 meals
-
-            if(mealplan.meals.length >= 3) {
+            if(mealplan.meals.length >= MAX_MEALS) {
                 return res.status(400).json({ error: 'Meal plan already contains 3 meals' });
             }
 
-            const addMealToMealplan = MealPlans.add({ _id: mealplan._id, meal: { mealId, name, diets, image } }, mealplan._id);
+            const addMealToMealplan = MealPlans.add({ user_id, week, meal: { mealId, name, diets, image } }, mealplan._id);
             res.json(addMealToMealplan);
         } else {
             // create a new meal plan with the meal
             const addNewMealplanWithMeal = MealPlans.add({
-                week,
                 user_id,
+                week,
                 meal: { mealId, name, diets, image }
             });
 
@@ -53,6 +58,11 @@ router.delete('/:id', async (req, res) => {
     try {
         const user_id = Number(req.headers.user_id);
         const id = Number(req.params.id);
+
+        // verify there is a requesting user (user_id)
+        if (!user_id) {
+            return res.status(403).json({ error: 'Forbidden user' });
+        }
 
         // find all meal plans of a user
         const mealplans = MealPlans.findAll(user_id);

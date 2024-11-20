@@ -12,8 +12,12 @@ const SPOONACULAR_API_URL = process.env.SPOONACULAR_API_URL;
 router.get('/search', async (req, res) => {
     try {
         const user_id = Number(req.headers.user_id);
-
         const { meal, diets } = req.query;
+
+        // verify there is a requesting user (user_id)
+        if (!user_id) {
+            return res.status(403).json({ error: 'Forbidden user' });
+        }
         
         // find the user by user_id in header
         const user = Users.find('_id', user_id);
@@ -43,7 +47,8 @@ router.get('/search', async (req, res) => {
             params: {
                 apiKey: SPOONACULAR_API_KEY,
                 query: meal,
-                diets: final_diets.toString()
+                diets: final_diets.toString(),
+                addRecipeInformation: true // boolean flag to return diets array
             }
         });
 

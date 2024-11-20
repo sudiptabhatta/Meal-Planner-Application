@@ -1,22 +1,9 @@
 import express from "express";
 
 import { MealPlans, Users } from "../../db/mocks.js";
+import { validatePreferences } from "../util/diet.js";
 
 const router = express.Router();
-
-const DIETS = [
-  "gluten free",
-  "ketogenic",
-  "vegetarian",
-  "lacto-vegetarian",
-  "ovo-vegetarian",
-  "vegan",
-  "pescetarian",
-  "paleo",
-  "primal",
-  "low fodmap",
-  "whole30",
-];
 
 
 // POST /users/register
@@ -35,21 +22,16 @@ router.post("/register", async (req, res) => {
       return res.status(409).json({ error: "Username is already registered." });
     }
 
-    let dietary_preferences = [];
-
-    // check if user provides dietary preferences and the preferences corresponds to the ones on spoonacular
-    if (preferences && Array.isArray(preferences)) {
-        const lowercase_preferences = preferences.map(v => v.toLowerCase());
-      // filters out the input dietary preferences array comparing with the diets on spoonacular api
-        dietary_preferences = lowercase_preferences.filter((diet) => {
-            return DIETS.includes(diet);
-        });
+    // optional - validate dietary preferences
+    const invalidPreferences = validatePreferences(preferences);
+    if (invalidPreferences.length) {
+        return res.status(400).json({ error: `Invalid dietary preferences: ${invalidPreferences}` });
     }
 
     const user = Users.add({
         username: username.toLowerCase(),
         password,
-        preferences: dietary_preferences,
+        preferences,
     });
 
     res.json({ _id: user._id, username: user.username, preferences: user.preferences });
@@ -103,7 +85,7 @@ router.get("/:id", async (req, res) => {
         // find mealplans of the user by id
         const mealplans = MealPlans.findAll(user._id);
 
-        res.json({ _id: user._id, username: user.username, preferences: user.preferences, mealplans: mealplans });
+        res.json({ _id: user._id, username: user.username, preferences: user.preferences, mealplans });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
@@ -129,19 +111,14 @@ router.put("/:id", async (req, res) => {
             return res.status(404).json({ error: "User not found." });
         }
         
-        // check the data type for the input dietary preferences
-        if(Array.isArray(preferences)) {
-            const lowercase_preferences = preferences.map(v => v.toLowerCase());
-            const dietary_preferences = lowercase_preferences.filter((diet) => {
-                return DIETS.includes(diet);
-            });
-
-            const updatedUser = Users.update(user._id, dietary_preferences);
-
-            res.json({ _id: updatedUser._id, username: updatedUser.username, preferences: updatedUser.preferences });
-        } else {
-            res.status(422).json({ error: "Dietary preferences is not an array." });
+        // optional - validate dietary preferences
+        const invalidPreferences = validatePreferences(preferences);
+        if (invalidPreferences.length) {
+            return res.status(400).json({ error: `Invalid dietary preferences: ${invalidPreferences}` });
         }
+ 
+        const updatedUser = Users.update(user._id, preferences);
+        res.status(200).json({_id: updatedUser._id, username: updatedUser.username, preferences: updatedUser.preferences  });
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
