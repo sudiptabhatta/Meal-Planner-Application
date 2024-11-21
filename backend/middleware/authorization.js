@@ -1,6 +1,5 @@
-import { Users } from "../../db/mocks.js";
 import User from "../models/user.js";
-import { verifyToken } from "../util/auth.js";
+import { verifyToken } from "../utils/auth.js";
 
 // express.js middleware for verifying guest token
 const verifyUser = async (req, res, next) => {

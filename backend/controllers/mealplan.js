@@ -1,18 +1,8 @@
-import express from 'express';
-
-import { MealPlans, Users } from '../../db/mocks.js';
-import { verifyUser } from '../middleware/authorization.js';
-
 import Mealplan from '../models/mealplan.js';
-
-const router = express.Router();
-
-router.use(verifyUser);
 
 const MAX_MEALS = 3;
 
-// POST /mealplans
-router.post('/', async (req, res) => {
+const addMealplan = async (req, res) => {
     try {
         const { user_id } = req.verified; 
         const { week, mealId, name, diets, image } = req.body;
@@ -55,11 +45,9 @@ router.post('/', async (req, res) => {
     } catch(error) {
         res.status(500).json({ error: error.toString() });
     }
-});
+};
 
-
-// DELETE /mealplans/:id
-router.delete('/:id', async (req, res) => {
+const deleteMealplan = async (req, res) => {
     try {
         const { user_id } = req.verified; 
         const { id } = req.params;
@@ -84,6 +72,6 @@ router.delete('/:id', async (req, res) => {
     } catch(error) {
         res.status(500).json({ error: error.toString() });
     }
-});
+};
 
-export default router;
+export { addMealplan, deleteMealplan };

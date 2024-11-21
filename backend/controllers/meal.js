@@ -1,17 +1,11 @@
-import express from 'express';
 import axios from 'axios';
 
-import { verifyUser } from '../middleware/authorization.js';
-
-import User from '../models/user.js';
-
-const router = express.Router();
+import User from "../models/user.js";
 
 const SPOONACULAR_API_KEY = process.env.SPOONACULAR_API_KEY;
 const SPOONACULAR_API_URL = process.env.SPOONACULAR_API_URL;
 
-// GET /meals/search??meal=<name>&diets=<preferences>
-router.get('/search', verifyUser, async (req, res) => {
+const searchMeal = async (req, res) => {
     try {
         const { user_id } = req.verified;
         const { meal, diets } = req.query;
@@ -59,6 +53,6 @@ router.get('/search', verifyUser, async (req, res) => {
     } catch(error) {
         res.status(500).json({ error: error.toString() });
     }
-});
+};
 
-export default router;
+export { searchMeal };

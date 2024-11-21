@@ -3,9 +3,9 @@ import "dotenv/config";
 
 import mongodb from "./db/connection.js";
 
-import users from "./api/routes/users.js";
-import meals from './api/routes/meals.js';
-import mealplans from './api/routes/mealplans.js';
+import users from "./routes/user.js";
+import meals from './routes/meal.js';
+import mealplans from './routes/mealplan.js';
 
 // Initialize the Express app
 const app = express();
