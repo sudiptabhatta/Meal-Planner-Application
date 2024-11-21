@@ -1,8 +1,9 @@
 import express from 'express';
 import axios from 'axios';
 
-import { Users } from '../../db/mocks.js';
 import { verifyUser } from '../middleware/authorization.js';
+
+import User from '../models/user.js';
 
 const router = express.Router();
 
@@ -21,7 +22,7 @@ router.get('/search', verifyUser, async (req, res) => {
         }
         
         // find the user by user_id in header
-        const user = Users.find('_id', user_id);
+        const user = await User.findById(user_id);
 
         if(!user){
             return res.status(404).json({ error: "User not found." });
