@@ -9,18 +9,9 @@ const searchMeal = async (req, res) => {
     try {
         const { user_id } = req.verified;
         const { meal, diets } = req.query;
-
-        // verify there is a requesting user (user_id)
-        if (!user_id) {
-            return res.status(403).json({ error: 'Forbidden user' });
-        }
         
         // find the user by user_id in header
         const user = await User.findById(user_id);
-
-        if(!user){
-            return res.status(404).json({ error: "User not found." });
-        }
 
         let final_diets = user.preferences;
 

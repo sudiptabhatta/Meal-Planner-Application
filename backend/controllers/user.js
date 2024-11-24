@@ -74,10 +74,6 @@ const getUserById = async (req, res) => {
         }
 
         const userWithMealPlan = await User.findById(id).select("-password").populate('mealplans');
-    
-        if (!userWithMealPlan) {
-          return res.status(404).json({ error: "User not found" });
-        }
 
         res.json(userWithMealPlan);
     } catch (error) {
@@ -89,7 +85,6 @@ const updateDietPreference = async (req, res) => {
     try {
         const { user_id } = req.verified;
         const { id } = req.params;
-
         const { preferences } = req.body;
 
         // ensure the user id in header matches id provided in URL
@@ -97,17 +92,14 @@ const updateDietPreference = async (req, res) => {
             return res.status(403).json({ error: "Forbidden: You are not this user." });
         }
 
-        // use findByIdAndUpdate to find a user by its _id and update preferences
-        const updatedUser = await User.findByIdAndUpdate(id, { preferences }, { new: true, select: '-password' });
-        if (!updatedUser) {
-            return res.status(404).json({ error: "User not found." });
-        }
-        
         // optional - validate dietary preferences
         const invalidPreferences = validatePreferences(preferences);
         if (invalidPreferences.length) {
             return res.status(400).json({ error: `Invalid dietary preferences: ${invalidPreferences}` });
         }
+
+        // use findByIdAndUpdate to find a user by its _id and update preferences
+        const updatedUser = await User.findByIdAndUpdate(id, { preferences }, { new: true }).select('-password');
  
         res.status(200).json(updatedUser);
     } catch (error) {
