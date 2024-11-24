@@ -1,7 +1,5 @@
 import { compare, hash, signToken } from "../utils/auth.js";
-
 import { validatePreferences } from "../utils/diet.js";
-
 import User from "../models/user.js";
 
 const registerUser = async (req, res) => {
@@ -105,6 +103,6 @@ const updateDietPreference = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.toString() });
     }
-}
+};
 
 export { registerUser, loginUser, getUserById, updateDietPreference };

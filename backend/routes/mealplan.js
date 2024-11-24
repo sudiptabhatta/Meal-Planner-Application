@@ -1,7 +1,6 @@
 import express from 'express';
 
 import { verifyUser } from '../middleware/authorization.js';
-
 import { addMealplan, deleteMealplan } from '../controllers/mealplan.js';
 
 const router = express.Router();

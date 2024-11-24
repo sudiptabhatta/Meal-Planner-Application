@@ -19,7 +19,6 @@ const hash = async (password) => {
 
             // Convert the derived key to a hexadecimal string
             const derivedHex = derivedKey.toString('hex');
-            console.log(`${salt}:${derivedHex}`)
 
             // combine salt and derivedHex as the final hashed password
             resolve(`${salt}:${derivedHex}`);

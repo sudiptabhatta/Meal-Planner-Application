@@ -2,7 +2,6 @@ import express from "express";
 import "dotenv/config";
 
 import mongodb from "./db/connection.js";
-
 import users from "./routes/user.js";
 import meals from './routes/meal.js';
 import mealplans from './routes/mealplan.js';

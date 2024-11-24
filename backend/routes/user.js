@@ -1,7 +1,6 @@
 import express from "express";
 
 import { verifyUser } from "../middleware/authorization.js";
-
 import { getUserById, loginUser, registerUser, updateDietPreference } from "../controllers/user.js";
 
 const router = express.Router();
