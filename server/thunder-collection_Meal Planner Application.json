@@ -1,0 +1,177 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Meal Planner Application",
+    "collectionId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+    "dateExported": "2024-11-24T21:39:25.057Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "2c5c6a1e-8ed1-4d38-a79a-91453ff05441",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "POST /users/register",
+            "url": "localhost:8080/users/register",
+            "method": "POST",
+            "sortNum": 25000,
+            "created": "2024-10-06T04:37:44.501Z",
+            "modified": "2024-11-24T21:29:56.179Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"sudipta_bhatta\",\n  \"password\": \"future_hashed_password\",\n  \"preferences\": [\"gluten free\"]\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "381f5f56-b0d2-4cfe-878d-4943a732c317",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "POST /users/login",
+            "url": "localhost:8080/users/login",
+            "method": "POST",
+            "sortNum": 28125,
+            "created": "2024-10-06T06:37:10.018Z",
+            "modified": "2024-11-24T21:25:27.144Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"sudipta_bhatta\",\n  \"password\": \"future_hashed_password\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "9cdd218f-83cb-4ca3-9d2d-943131670984",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "GET /users/:id",
+            "url": "localhost:8080/users/67439b7a3efd1a3c3a5ff42b",
+            "method": "GET",
+            "sortNum": 31250,
+            "created": "2024-10-06T07:03:25.844Z",
+            "modified": "2024-11-24T21:33:12.717Z",
+            "headers": [
+                {
+                    "name": "user_id",
+                    "value": "2",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1ZGlwdGFfYmhhdHRhIiwidXNlcl9pZCI6IjY3NDM5YjdhM2VmZDFhM2MzYTVmZjQyYiIsImlhdCI6MTczMjQ4Mzk2NiwiZXhwIjoxNzMyNTcwMzY2fQ.Wn8zCV4cIJ3Wy2LvLeQ5xTZ73t_2c6KUqZjAhLpKvsE"
+                }
+            ]
+        },
+        {
+            "_id": "6a9f1523-0090-4216-b9fa-59f2b3d3852a",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "PUT /users/:id",
+            "url": "localhost:8080/users/67439b7a3efd1a3c3a5ff42b",
+            "method": "PUT",
+            "sortNum": 40625,
+            "created": "2024-10-06T18:38:56.320Z",
+            "modified": "2024-11-24T21:34:38.432Z",
+            "headers": [
+                {
+                    "name": "user_id",
+                    "value": "1",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1ZGlwdGFfYmhhdHRhIiwidXNlcl9pZCI6IjY3NDM5YjdhM2VmZDFhM2MzYTVmZjQyYiIsImlhdCI6MTczMjQ4Mzk2NiwiZXhwIjoxNzMyNTcwMzY2fQ.Wn8zCV4cIJ3Wy2LvLeQ5xTZ73t_2c6KUqZjAhLpKvsE"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"preferences\": [\"vegetarian\", \"Gluten Free\"]\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "a0ccffc3-a4e8-499f-9c0b-d24728eed4b6",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "POST /mealplans/",
+            "url": "localhost:8080/mealplans",
+            "method": "POST",
+            "sortNum": 46875,
+            "created": "2024-10-06T21:21:47.281Z",
+            "modified": "2024-11-24T21:37:10.360Z",
+            "headers": [
+                {
+                    "name": "user_id",
+                    "value": "2",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1ZGlwdGFfYmhhdHRhIiwidXNlcl9pZCI6IjY3NDM5YjdhM2VmZDFhM2MzYTVmZjQyYiIsImlhdCI6MTczMjQ4Mzk2NiwiZXhwIjoxNzMyNTcwMzY2fQ.Wn8zCV4cIJ3Wy2LvLeQ5xTZ73t_2c6KUqZjAhLpKvsE"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"week\": 1,\n   \"mealId\": 1652621,\n   \"name\": \"Keto Pancakes\",\n   \"diets\": [\"gluten free\", \"dairy free\", \"lacto ovo vegetarian\", \"ketogenic\"],\n   \"image\": \"https://img.spoonacular.com/recipes/1652621-312x231.jpg\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "3766254f-9a2d-4852-a14a-e42988d50f65",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "DELETE /mealplans/:id",
+            "url": "localhost:8080/mealplans/67439c0f3efd1a3c3a5ff43d",
+            "method": "DELETE",
+            "sortNum": 48437.5,
+            "created": "2024-10-07T03:10:38.929Z",
+            "modified": "2024-11-24T21:38:00.250Z",
+            "headers": [
+                {
+                    "name": "user_id",
+                    "value": "1",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1ZGlwdGFfYmhhdHRhIiwidXNlcl9pZCI6IjY3NDM5YjdhM2VmZDFhM2MzYTVmZjQyYiIsImlhdCI6MTczMjQ4Mzk2NiwiZXhwIjoxNzMyNTcwMzY2fQ.Wn8zCV4cIJ3Wy2LvLeQ5xTZ73t_2c6KUqZjAhLpKvsE"
+                }
+            ]
+        },
+        {
+            "_id": "f947adb8-d85d-47d3-bd09-31ffc3ff9962",
+            "colId": "f3b62d06-fc2e-4174-8a21-35885ae7c63e",
+            "containerId": "",
+            "name": "GET /meals/search",
+            "url": "localhost:8080/meals/search?meal=butter chicken&diets=ketogenic, gluten free",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-10-06T19:48:21.445Z",
+            "modified": "2024-11-24T21:38:33.024Z",
+            "headers": [
+                {
+                    "name": "user_id",
+                    "value": "1",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Authorization",
+                    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1ZGlwdGFfYmhhdHRhIiwidXNlcl9pZCI6IjY3NDM5YjdhM2VmZDFhM2MzYTVmZjQyYiIsImlhdCI6MTczMjQ4Mzk2NiwiZXhwIjoxNzMyNTcwMzY2fQ.Wn8zCV4cIJ3Wy2LvLeQ5xTZ73t_2c6KUqZjAhLpKvsE"
+                }
+            ],
+            "params": [
+                {
+                    "name": "meal",
+                    "value": "butter chicken",
+                    "isPath": false
+                },
+                {
+                    "name": "diets",
+                    "value": "ketogenic, gluten free",
+                    "isPath": false
+                }
+            ]
+        }
+    ],
+    "ref": "jCuE1mq2KLbQtIz2HsgD0oABtAseQzocw5jullRgNCDCnSIJ-GySntguDGQXHNyTZec5_6ntG_7ANVlhy_ez_g"
+}
