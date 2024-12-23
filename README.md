@@ -23,10 +23,10 @@
 ### Mock Data Setup for Meal Planner App
 
 **Functionality**
-* Use the mock.js file which includes methods needed for managing Users and MealPlans which allows for simulating database functionality.
+* Use the `mock.js` file which includes methods needed for managing Users and MealPlans which allows for simulating database functionality.
 
 **Data:**
-* DO NOT remove _id: 1 from User or Meal Plans.  Instead add at least one user object with required fields and add at least one meal plan object with the required fields. 
+* DO NOT remove `_id: 1` from User or Meal Plans.  Instead add at least one user object with required fields and add at least one meal plan object with the required fields. 
 
 ### API Endpoints
 Design and implement the following endpoints in your Node.js Application.  These endpoints must follow REST principles, including proper use of HTTP methods, resource naming, status codes and appropriate URL structures for path and query parameters.
