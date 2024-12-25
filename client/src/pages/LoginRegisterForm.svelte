@@ -97,7 +97,7 @@
 
     const closeErrorAlert = () => {
         errorMessage = '';
-    }
+    };
 </script>
 
 <div class="form-container">
