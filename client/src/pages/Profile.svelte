@@ -2,6 +2,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
   import MealCard from "../components/MealCard.svelte";
+  import UpdateDietPreferences from "./UpdateDietPreferences.svelte"
 
    // props: id passed from route parameter
    let { id } = $props();
@@ -27,6 +28,12 @@
             console.log(error);
         }
    });
+
+   window.addEventListener("preferencesUpdated", (event) => {
+      if (profile && event.detail.preferences) {
+        profile.preferences = event.detail.preferences; // Update preferences with event details
+      }
+   });
 </script>
 
 
@@ -38,7 +45,11 @@
       <div class="header">
         <h1>Welcome, {profile.username}</h1>
         <br />
-        <h5>DIET PREFERENCES:</h5>
+        <div class="update-diet-pref">
+          <h5>DIET PREFERENCES:</h5> 
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#updateDietPrefModal">Update</button>
+        </div>
       </div>
   
       <!-- Diet Preferences Section -->
@@ -70,10 +81,13 @@
           {/each}
         {/if}
       </div>
+
+      <UpdateDietPreferences currentPreferences={profile.preferences || []}/>
     {/if}
-  </div>
-  
-  <style>
+</div>
+
+<style>
+
     /* Header Section */
     .header {
       text-align: center;
@@ -142,5 +156,15 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.5rem;
+    }
+
+    .update-diet-pref {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn {
+      text-decoration: none;
     }
   </style>
