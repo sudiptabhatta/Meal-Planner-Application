@@ -36,7 +36,7 @@
 
             // Dispatch an event with updated preferences
             window.dispatchEvent(new CustomEvent('preferencesUpdated', {
-                detail: { preferences: response.data.preferences }
+                detail: { preferences: response.data.preferences } // include updated preferences in the detail property
             }));
 
             // Close the modal
@@ -44,7 +44,7 @@
             const bootstrapModal = bootstrap.Modal.getInstance(modal);
             bootstrapModal.hide();
         } catch(error) {
-            console.error("Error updating preferences:", error);
+            console.error(error);
         }
     };
     

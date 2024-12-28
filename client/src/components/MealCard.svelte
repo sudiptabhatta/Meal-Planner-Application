@@ -4,15 +4,19 @@
 
 {#each meals as meal}
     <div class="meal-card">
-        <img class="meal-image" src={meal.image} alt={meal.name} />
+        <img class="meal-image" src={meal.image} alt={meal.name || meal.title} />
         <div class="meal-info">
-            <p class="meal-name">{meal.name}</p>
+            <p class="meal-name">{meal.name || meal.title}</p>
              <p>DIETS:</p>
-            <div class="diet-list">
-                  {#each meal.diets as diet}
-                    <div class="meal-diet">{diet}</div>
-                  {/each}
-            </div>
+             <div class="diet-list">
+              {#if meal.diets.length === 0}
+                <p>No diets found.</p>
+              {:else}
+                {#each meal.diets as diet}
+                <div class="meal-diet">{diet}</div>
+                {/each}
+              {/if}
+          </div>
         </div>
     </div>
 {/each}
@@ -61,7 +65,6 @@
     .meal-diet {
       padding: 0.3rem;
       background-color: #1d2531;
-      /* border-radius: 12px; */
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       color: #a8b9b7;
       font-size: 1rem;

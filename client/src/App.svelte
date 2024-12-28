@@ -2,6 +2,7 @@
     import { Router, Route, Link, navigate } from "svelte-routing";
     import LoginRegisterForm from "./pages/LoginRegisterForm.svelte";
     import Profile from "./pages/Profile.svelte";
+    import SearchMeal from "./pages/SearchMeal.svelte";
 
     const verifyLogin = () => {
         // retrieve guest from local storage or return null if not found
@@ -54,6 +55,9 @@
         <div>
             <Route path="/account">
                 <LoginRegisterForm />
+            </Route>
+            <Route>
+                <SearchMeal />
             </Route>
             <Route path="/profile/:id" let:params>
                 <Profile id={params.id} />
