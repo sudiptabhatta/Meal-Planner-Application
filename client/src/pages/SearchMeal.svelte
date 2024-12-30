@@ -7,6 +7,8 @@
 
   let meals = $state([]);
 
+  let errorMessage =  $state('');
+
   const searchMeal = async () => {
     try {
       // get guest info from local storage
@@ -28,10 +30,22 @@
       console.log(error);
     }
   };
+
+  window.addEventListener("errorMessage", (event) => {
+      if (event.detail) {
+        errorMessage = event.detail;
+      }
+  });
+
+  const closeErrorAlert = () => {
+    errorMessage = ''
+  }
+
 </script>
 
 <div class="container">
   <div class="search-container">
+  <br>
     <div class="inputs-row">
       <input type="text" class="form-control meal-input" placeholder="Enter meal name..." bind:value={meal} />
 
@@ -42,11 +56,20 @@
 
   <div class="meal-list">
     <h5>Searched Meals</h5>
+    
+    {#if errorMessage}
+    <div class="alert alert-danger" role="alert">
+        <span>{errorMessage}</span>
+        <button type="button" class="btn-close" aria-label="Close" onclick={closeErrorAlert}></button>
+    </div>
+    {/if}
+    <br>
+
     <div class="meal-card-grid">
       {#if meals.length == 0}
           <p>No meals found. Try searching again.</p>
       {:else}
-        <MealCard {meals} />
+        <MealCard meals={meals} searchResults={true} />
       {/if}
     </div>
   </div>
@@ -128,4 +151,13 @@
     text-align: center;
     font-size: 1.5rem;
   }
+
+  .alert {
+        margin-top: 2rem;
+        width: 45%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+    }
 </style>

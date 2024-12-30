@@ -1,5 +1,46 @@
 <script>
-    export let meals = [];
+    import axios from "axios";
+
+    let {meals = [], searchResults = false} = $props();
+
+    let week = $state({});
+
+    const addToMealplan = async (meal) => {
+      try {
+        // get guest info from local storage
+        const guest = JSON.parse(localStorage.getItem('guest'));
+
+        const _ = await axios.post(`http://localhost:8080/mealplans`, 
+        {
+          week: week[meal.id],
+          mealId: meal.id,
+          name: meal.title,
+          diets: meal.diets,
+          image: meal.image
+        }, 
+        {
+          headers: {
+            Authorization: guest.header_token
+          }
+        });
+
+        window.dispatchEvent(new CustomEvent('errorMessage', {
+          detail: ''
+        }));
+
+      } catch(error) {
+          let errorMessage = '';
+          if(error.response && error.response.data) {
+            errorMessage = error.response.data.error;
+          } else {
+            errorMessage = error.message || 'An unexpected error occurred.';
+          } 
+          
+          window.dispatchEvent(new CustomEvent('errorMessage', {
+              detail: errorMessage
+          }));
+      }
+    }
 </script>
 
 {#each meals as meal}
@@ -13,10 +54,17 @@
                 <p>No diets found.</p>
               {:else}
                 {#each meal.diets as diet}
-                <div class="meal-diet">{diet}</div>
+                  <div class="meal-diet">{diet}</div>
                 {/each}
               {/if}
-          </div>
+             </div>
+             <div class="week-dropdown">
+              {#if searchResults }
+                <label for="weekno">Week: </label>
+                <input type="number" name="planweek" id="planweek" min="1" max="4" bind:value={week[meal.id]}>
+                <button class="btn btn-secondary btn-sm" onclick={() => addToMealplan(meal)}>Add to Mealplan</button>
+              {/if}
+             </div>
         </div>
     </div>
 {/each}
@@ -68,5 +116,21 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
       color: #a8b9b7;
       font-size: 1rem;
+    }
+
+    .week-dropdown {
+      margin-top: 20px; 
+    }
+
+    .week-dropdown input {
+      background-color: #0c111a;
+      border-color: #0c111a;
+      color: #fff;
+    }
+
+    .week-dropdown button {
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 3px;
     }
   </style>

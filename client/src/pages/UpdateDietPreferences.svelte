@@ -1,7 +1,6 @@
 <script>
     import axios from "axios";
 
-    // export let currentPreferences = [];
     let { currentPreferences } = $props();
 
     let preferences = $state([]);
