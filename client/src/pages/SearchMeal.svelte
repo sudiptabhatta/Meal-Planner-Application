@@ -57,12 +57,14 @@
   <div class="meal-list">
     <h5>Searched Meals</h5>
     
-    {#if errorMessage}
-    <div class="alert alert-danger" role="alert">
-        <span>{errorMessage}</span>
-        <button type="button" class="btn-close" aria-label="Close" onclick={closeErrorAlert}></button>
+    <div class="error-message-container">
+      {#if errorMessage}
+        <div class="alert alert-danger" role="alert">
+          <span>{errorMessage}</span>
+          <button type="button" class="btn-close" aria-label="Close" onclick={closeErrorAlert}></button>
+        </div>
+      {/if}
     </div>
-    {/if}
     <br>
 
     <div class="meal-card-grid">
@@ -159,5 +161,12 @@
         justify-content: space-between;
         align-items: center;
         gap: 8px;
-    }
+  }
+
+  .error-message-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    width: 100%;
+  }
 </style>
