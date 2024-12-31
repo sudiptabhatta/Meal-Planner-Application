@@ -40,7 +40,7 @@
               detail: errorMessage
           }));
       }
-    }
+    };
 </script>
 
 {#each meals as meal}
@@ -58,13 +58,13 @@
                 {/each}
               {/if}
              </div>
-             <div class="week-dropdown">
-              {#if searchResults }
-                <label for="weekno">Week: </label>
-                <input type="number" name="planweek" id="planweek" min="1" max="4" bind:value={week[meal.id]}>
-                <button class="btn btn-secondary btn-sm" onclick={() => addToMealplan(meal)}>Add to Mealplan</button>
-              {/if}
-             </div>
+            <div class="week-dropdown">
+            {#if searchResults }
+              <label for="weekno">Week: </label>
+              <input type="number" name="planweek" id="planweek" min="1" max="4" bind:value={week[meal.id]}>
+              <button class="btn btn-secondary btn-sm" onclick={() => addToMealplan(meal)}>Add to Mealplan</button>
+            {/if}
+            </div>
         </div>
     </div>
 {/each}

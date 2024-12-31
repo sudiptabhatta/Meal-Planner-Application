@@ -3,37 +3,56 @@
   import { onMount } from "svelte";
   import MealCard from "../components/MealCard.svelte";
   import UpdateDietPreferences from "./UpdateDietPreferences.svelte"
+  
+  // props: id passed from route parameter
+  let { id } = $props();
 
-   // props: id passed from route parameter
-   let { id } = $props();
+  // state to hold the fetched profile data
+  let profile = $state(null);
 
-   // state to hold the fetched profile data
-   let profile = $state(null);
+  onMount(async () => {
+    try {
+      // get guest info from local storage
+      const guest = JSON.parse(localStorage.getItem('guest'));
 
-   onMount(async () => {
-        try {
-            // get guest info from local storage
-            const guest = JSON.parse(localStorage.getItem('guest'));
-
-            // get profile with mealplan from the server with access token
-            const response = await axios.get(`http://localhost:8080/users/${guest._id}`, {
-                headers: {
-                    Authorization: guest.header_token // attach token for authorization
-                }
-            });
-
-            // assign profile to the response
-            profile = response.data;
-        } catch(error) {
-            console.log(error);
+      // get profile with mealplan from the server with access token
+      const response = await axios.get(`http://localhost:8080/users/${guest._id}`, { 
+        headers: {
+          Authorization: guest.header_token // attach token for authorization
         }
-   });
+      });
 
-   window.addEventListener("preferencesUpdated", (event) => {
-      if (profile && event.detail.preferences) {
-        profile.preferences = event.detail.preferences; // Update preferences with event details
+      // assign profile to the response
+      profile = response.data;
+    } catch(error) {
+      console.log(error);
+    }
+  });
+  
+  window.addEventListener("preferencesUpdated", (event) => {
+    if (profile && event.detail.preferences) {
+      profile.preferences = event.detail.preferences; // Update preferences with event details
+    }
+  });
+  
+  const deleteMealplan = async (_id) => {
+    try {
+      // get guest info from local storage
+      const guest = JSON.parse(localStorage.getItem('guest'));
+
+      const _ = await axios.delete(`http://localhost:8080/mealplans/${_id}`, {
+        headers: {
+          Authorization: guest.header_token
+        }
+      })
+
+      if(profile) {
+        profile.mealplans = profile.mealplans.filter(mealplan => mealplan._id !== _id);
       }
-   });
+    } catch(error) {
+      console.log(error);
+    }
+  }
 </script>
 
 
@@ -73,7 +92,10 @@
         {:else}
           {#each profile.mealplans as mealplan}
             <div class="week-meals">
-              <h5>Week {mealplan.week}</h5>
+              <div class="mealplan-del">
+                <h5>Week {mealplan.week}</h5>
+                <button class="btn btn-secondary btn-sm" onclick={() => deleteMealplan(mealplan._id)}>Delete Mealplan</button>
+              </div>
               <div class="meals-grid">
                 <MealCard meals={mealplan.meals} />
               </div>
@@ -166,5 +188,16 @@
 
     .btn {
       text-decoration: none;
+    }
+
+    .mealplan-del {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .mealplan-del .btn {
+      margin-bottom: 15px;
     }
   </style>
